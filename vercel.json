@@ -1,23 +1,12 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
-    { "src": "**/*.html", "use": "@vercel/static" },
-    { "src": "jewellery/**/*", "use": "@vercel/static" }
+    { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/(.*)\.html$", "dest": "/$1.html" },
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/api/(.*)", "dest": "/api/$1" }
   ],
   "env": {
-    "BREVO_API_KEY": "@brevo_api_key",
-    "NODE_ENV": "production"
-  },
-  "functions": {
-    "api/preorder.js": {
-      "maxDuration": 10,
-      "memory": 128
-    }
+    "BREVO_API_KEY": "@brevo_api_key"
   }
 }
