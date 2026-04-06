@@ -259,6 +259,148 @@
         outline-offset: 3px;
       }
 
+      /* ── PREORDER MODAL ── */
+      .preorder-modal {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+      }
+      .preorder-modal.active {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .preorder-modal-content {
+        position: relative;
+        background: var(--color-surface);
+        padding: 32px 28px;
+        border-radius: 4px;
+        max-width: 480px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: slideUp 0.3s ease;
+      }
+      @media (max-width: 768px) {
+        .preorder-modal-content {
+          padding: 24px 16px;
+          max-width: 95%;
+          max-height: 85vh;
+        }
+      }
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .preorder-modal h2 {
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--color-text-primary);
+        margin-bottom: 12px;
+      }
+      .preorder-form-group {
+        margin-bottom: 14px;
+      }
+      .preorder-form-group label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        margin-bottom: 8px;
+        letter-spacing: 0.05em;
+      }
+      .preorder-form-group input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--color-border);
+        border-radius: 2px;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: var(--color-text-primary);
+        transition: border-color 0.2s ease;
+      }
+      .preorder-form-group input:focus {
+        outline: none;
+        border-color: var(--color-gold);
+      }
+      .preorder-form-group input::placeholder {
+        color: var(--color-text-muted);
+      }
+      .preorder-form-submit {
+        width: 100%;
+        padding: 18px 24px;
+        background: var(--color-cta);
+        color: #fff;
+        border: none;
+        border-radius: 2px;
+        font-family: var(--font-body);
+        font-size: 0.875rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.15s ease;
+      }
+      .preorder-form-submit:hover {
+        background: var(--color-cta-hover);
+        transform: translateY(-1px);
+      }
+      .preorder-form-submit:active {
+        transform: translateY(0);
+      }
+      .preorder-form-submit:focus-visible {
+        outline: 2px solid var(--color-gold);
+        outline-offset: 3px;
+      }
+      .form-message {
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 4px;
+        text-align: center;
+        display: none;
+      }
+      .form-message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .form-message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+      .preorder-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: var(--color-text-primary);
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .preorder-close:hover {
+        opacity: 0.7;
+      }
+
       /* ── Nav ── */
       .nav {
         position: fixed;
@@ -812,7 +954,48 @@
         }
       }
     </style>
-  </head>
+  
+  <!-- SECTION 1: BREVO TRACKING PIXEL -->
+<script>
+  (function () {
+    window.sib = {
+      equeue: [],
+      client_key: "Yxkeysib-m1tbgg8n8t27aysoxr1xjb2p",
+    };
+    window.sendinblue = {};
+    for (
+      var j = ["track", "identify", "trackLink", "page"], i = 0;
+      i < j.length;
+      i++
+    ) {
+      (function (k) {
+        window.sendinblue[k] = function () {
+          var arg = Array.prototype.slice.call(arguments);
+          (
+            window.sib[k] ||
+            function () {
+              var t = {};
+              t[k] = arg;
+              window.sib.equeue.push(t);
+            }
+          )(arg[0], arg[1], arg[2], arg[3]);
+        };
+      })(j[i]);
+    }
+    var n = document.createElement("script"),
+      i = document.getElementsByTagName("script")[0];
+    ((n.type = "text/javascript"),
+      (n.id = "sendinblue-js"),
+      (n.async = !0),
+      (n.src =
+        "https://sibautomation.com/sa.js?key=" +
+        window.sib.client_key),
+      i.parentNode.insertBefore(n, i),
+      window.sendinblue.page());
+  })();
+</script>
+
+</head>
   <body>
     <!-- ── Navigation ── -->
     <nav class="nav" role="navigation" aria-label="Site navigation">
@@ -823,8 +1006,8 @@
       <a
         href="#order"
         class="nav-cta"
-        aria-label=" Join Waitlist — Silver Butterfly Brooch"
-        >Join Waitlist</a
+        aria-label=" Want Early Access — Silver Butterfly Brooch"
+        >Unlock Early Access</a
       >
     </nav>
     <style>
@@ -923,15 +1106,16 @@
         </p>
 
         <div class="hero-price-block">
-          <span class="hero-price">₹5,850</span>
+          <span class="hero-price" style="text-decoration: line-through; color: gray;">₹12,850</span>
+          <span style="color: red; font-size: 1.25rem; font-weight: bold;">Launch Offer</span>
           <span class="hero-price-note">incl. gift box &amp; certificate</span>
         </div>
 
         <div class="hero-cta-row">
-          <a
-            href="#order"
+          <button
+            id="preorderBtn"
             class="btn-cta"
-            aria-label="Buy the Silver Butterfly Brooch now"
+            aria-label="Join pre-order waitlist for Silver Butterfly Brooch"
           >
             <svg
               width="16"
@@ -947,7 +1131,7 @@
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
             Pre-Order Now
-          </a>
+          </button>
           <!-- <a
             href="#gallery"
             class="btn-cta-ghost"
@@ -1382,7 +1566,7 @@
         <div class="detail-layout fade-up">
           <div class="detail-image">
             <img
-              src="./jewellery/butterfly-brooch/butterfly-brooch-bg.png"
+              src="/jewellery/butterfly-brooch/butterfly-brooch-bg.png"
             
 
               alt="Extreme close-up of hand-twisted silver filigree wires forming the butterfly wing"
@@ -1582,7 +1766,7 @@
               href="#order"
               class="btn-cta"
               aria-label="Own a piece of this heritage"
-              >Own Yours Today</a
+              >“Reserve Your Piece”</a
             >
           </div>
           <div class="detail-image">
@@ -1734,8 +1918,8 @@
         </h2>
         <p class="t-body" style="margin-bottom: 40px; font-size: 1.05rem">
           We produce in small batches to preserve quality.Our first batch is
-          limited to 50 pieces. Waitlist members get first access and an
-          exclusive launch discount. Join now — we expect to sell out within the
+          limited to 50 pieces. Launch offers is for those first interested members who get access and an
+          exclusive launch discount. Reserve now — we expect to sell out within the
           first week.
         </p>
 
@@ -1775,7 +1959,9 @@
                   font-weight: 600;
                 "
               >
-                Approx ₹5,850
+                <span style="text-decoration: line-through; color: grey;">₹12,850</span>
+                  <span style="color: red; font-weight: bold;">Launch Offer</span>
+ 
               </div>
             </div>
             <div style="display: flex; gap: 8px; align-items: center">
@@ -1792,12 +1978,12 @@
           </div>
 
           <div style="display: flex; flex-direction: column; gap: 12px">
-            <a
-              href="mailto:sales@expostores.com?subject=Order%3A%20Silver%20Butterfly%20Brooch%20AM001&body=Hello%2C%20I%20would%20like%20to%20order%20the%20Silver%20Butterfly%20Brooch.%0A%0AName%3A%20%0APhone%3A%20%0ADelivery%20address%3A%20"
+            <button
+              id="reserveBtn"
               class="btn-cta"
               style="width: 100%; justify-content: center"
-              aria-label="Order via email — Silver Butterfly Brooch"
-              onclick="trackConversion()"
+              aria-label="Reserve your piece — join pre-order waitlist"
+              onclick="document.getElementById('preorderModal').classList.add('active'); document.body.style.overflow = 'hidden'; trackConversion();"
             >
               <svg
                 width="18"
@@ -1812,8 +1998,8 @@
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
-              Pre-Order Now
-            </a>
+              Reserve Your Piece
+            </button>
             <a
               href="tel:+918282816919"
               class="btn-cta-ghost"
@@ -1928,6 +2114,7 @@
       </div>
     </section>
 
+
     <!-- ── Footer ── -->
     <footer class="footer" role="contentinfo">
       <p>
@@ -2008,9 +2195,9 @@
         // });
       }
     </script>
-    <<!-- Floating WhatsApp Button -->
+    <!-- Floating WhatsApp Button -->
     <a
-      href="https://wa.me/918282816919?text=Hi%2C%20I%27m%20interested%20in%20the%20Silver%20Butterfly%20Brooch"
+      href="https://wa.me/918282816919?text=Hi%2C%20I%27m%20interested%20in%20the%20Silver%20Butterfly%20Brooch%20Launch%20Offer%20"
       target="_blank"
       rel="noopener"
       id="wa-float"
@@ -2044,5 +2231,204 @@
         />
       </svg>
     </a>
+
+    <!-- ── PREORDER MODAL ── -->
+    <div id="preorderModal" class="preorder-modal">
+      <div class="preorder-modal-content">
+        <button class="preorder-close" id="preorderClose" aria-label="Close preorder form">&times;</button>
+        <h2>Reserve Your Butterfly Brooch</h2>
+        <p style="text-align: center; color: #666; margin-bottom: 1.5rem; font-size: 0.95rem;">
+          Join our exclusive waitlist and be first to own this masterpiece at 50% off
+        </p>
+        <form id="preorderForm">
+          <div class="preorder-form-group">
+            <label for="fullName">Full Name *</label>
+            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+          </div>
+          <div class="preorder-form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required placeholder="your@email.com">
+            <small style="display: block; margin-top: 0.25rem; color: #666; font-size: 0.8rem;">We'll send you exclusive updates and your reservation details</small>
+          </div>
+          <div class="preorder-form-group">
+            <label for="phone">WhatsApp Number *</label>
+            <input type="tel" id="phone" name="phone" required placeholder="+91 98765 43210" pattern="[+]?[0-9]{10,15}">
+            <small style="display: block; margin-top: 0.25rem; color: #666; font-size: 0.8rem;">We'll contact you via WhatsApp for order confirmation</small>
+          </div>
+          <div class="preorder-form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" placeholder="Kolkata">
+          </div>
+          <div class="preorder-form-group">
+            <label for="heardFrom">How did you hear about us?</label>
+            <select id="heardFrom" name="heardFrom" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: 'Inter', sans-serif; transition: border-color 0.3s;">
+              <option value="">Select an option</option>
+              <option value="google_search">Google Search</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="instagram">Instagram</option>
+              <option value="facebook">Facebook</option>
+              <option value="friend_referral">Friend/Family Referral</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" class="preorder-form-submit" id="submitBtn">Reserve My Spot Now</button>
+          <div class="form-message" id="formMessage"></div>
+          <h4 style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: #999;">( Launch Offer for limited period only )</h4>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Pre-order modal functionality
+      const preorderBtn = document.getElementById('preorderBtn');
+      const preorderModal = document.getElementById('preorderModal');
+      const preorderClose = document.getElementById('preorderClose');
+      const preorderForm = document.getElementById('preorderForm');
+
+      // Open modal on button click
+      preorderBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        preorderModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Track click event (Google Tag Manager)
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'preorder_interest_click', {
+            product: 'Silver Butterfly Brooch',
+            product_id: 'AM001'
+          });
+        }
+        // Track for Meta Pixel (Facebook)
+        if (typeof fbq !== 'undefined') {
+          fbq('trackCustom', 'PreorderInterestClick');
+        }
+      });
+
+      // Close modal on close button click
+      preorderClose.addEventListener('click', () => {
+        preorderModal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      });
+
+      // Close modal on outside click
+      preorderModal.addEventListener('click', (e) => {
+        if (e.target === preorderModal) {
+          preorderModal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && preorderModal.classList.contains('active')) {
+          preorderModal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+
+      // Format phone number for Brevo (expects +91XXXXXXXXXX)
+      function formatPhoneForBrevo(phone) {
+        // Remove all non-numeric characters except +
+        let cleaned = phone.replace(/[^\d+]/g, '');
+
+        // If it already starts with +, keep it
+        if (cleaned.startsWith('+')) {
+          return cleaned;
+        }
+
+        // Remove leading 0 if present (Indian numbers sometimes have this)
+        if (cleaned.startsWith('0')) {
+          cleaned = cleaned.substring(1);
+        }
+
+        // If no country code, add +91 (India)
+        if (!cleaned.startsWith('91')) {
+          cleaned = '91' + cleaned;
+        }
+
+        // Add + prefix
+        return '+' + cleaned;
+      }
+
+      // Handle form submission - Using Secure Backend Proxy
+      preorderForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const formMessage = document.getElementById('formMessage');
+        const form = e.target;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Reserving...";
+        formMessage.style.display = 'none';
+        formMessage.className = 'form-message';
+
+        const formData = {
+          fullName: document.getElementById('fullName').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          city: document.getElementById('city').value.trim() || "Not provided",
+          heardFrom: document.getElementById('heardFrom').value || "Not specified",
+        };
+
+        try {
+          const response = await fetch('/api/preorder', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            formMessage.textContent = data.message || '🦋 Reservation Confirmed!';
+            formMessage.className = 'form-message success';
+            formMessage.style.display = 'block';
+
+            // Track with GTM/Meta if available
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'preorder_submission', {
+                product: 'Silver Butterfly Brooch',
+                product_id: 'AM001',
+                email: formData.email
+              });
+            }
+            if (typeof fbq !== 'undefined') {
+              fbq('trackCustom', 'PreorderSubmission', {
+                value: 6425,
+                currency: 'INR'
+              });
+            }
+
+            setTimeout(() => {
+              form.reset();
+              formMessage.style.display = 'none';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Reserve My Spot Now';
+            }, 3000);
+
+            setTimeout(() => {
+              preorderModal.classList.remove('active');
+              document.body.style.overflow = 'auto';
+            }, 1500);
+          } else {
+            const errorMsg = data.errors?.join(', ') || data.message || 'Something went wrong.';
+            formMessage.textContent = `❌ ${errorMsg}`;
+            formMessage.className = 'form-message error';
+            formMessage.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Reserve My Spot Now';
+          }
+        } catch (error) {
+          console.error('Form error:', error);
+          formMessage.textContent = '❌ Network error. Try again or WhatsApp: +91 82828 16919';
+          formMessage.className = 'form-message error';
+          formMessage.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Reserve My Spot Now';
+        }
+      });
+
+    </script>
   </body>
 </html>
