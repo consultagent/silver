@@ -52,7 +52,7 @@ async function sendWelcomeEmail(contactData) {
   if (!apiKey) return;
 
   const emailPayload = {
-    sender: { name: 'Silver By Expostores', email: 'orders@silverbyexpostores.com' },
+    sender: { name: 'Silver By Expostores', email: 'sales@expostores.com' },
     to: [{ email: contactData.email, name: contactData.fullName }],
     subject: '🦋 Your Butterfly Brooch is Reserved - 50% OFF Confirmed!',
     htmlContent: `<html><body><h1>🦋 Reservation Confirmed!</h1><p>Dear ${contactData.fullName},</p><p>Your Butterfly Brooch is reserved at ₹6,425 (50% OFF)!</p><p>Our team will WhatsApp you within 24 hours.</p></body></html>`
