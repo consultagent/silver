@@ -1,0 +1,19 @@
+{
+  "name": "silver-brooch-site",
+  "version": "1.0.0",
+  "description": "Silver brooch e-commerce site with Vercel serverless API",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["silver", "brooch", "ecommerce"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5"
+  }
+}
