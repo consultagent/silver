@@ -401,6 +401,86 @@
         opacity: 0.7;
       }
 
+      /* SUCCESS MODAL STYLING */
+      .success-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        backdrop-filter: blur(4px);
+        animation: fadeIn 0.3s ease-in;
+      }
+
+      .success-modal-content {
+        position: relative;
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 480px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        animation: slideUp 0.4s ease-out;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .success-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #1a1412;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.3s ease;
+      }
+
+      .success-close:hover {
+        opacity: 0.7;
+      }
+
+      .success-modal button:not(.success-close):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      @media (max-width: 600px) {
+        .success-modal-content {
+          padding: 1.5rem;
+          width: 95%;
+          margin: 1rem;
+        }
+
+        .success-modal-content h2 {
+          font-size: 1.5rem;
+        }
+
+        #displayCode {
+          font-size: 1.5rem !important;
+        }
+      }
+
       /* ── Nav ── */
       .nav {
         position: fixed;
@@ -2278,6 +2358,57 @@
       </div>
     </div>
 
+    <!-- Success Modal (Discount Code Confirmation) -->
+    <div id="successModal" class="success-modal" style="display: none;">
+      <div class="success-modal-content">
+        <!-- Close Button -->
+        <button id="closeSuccessModal" class="success-close" aria-label="Close success modal">&times;</button>
+
+        <!-- Heading -->
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎉</div>
+          <h2 style="color: #1a1412; font-size: 1.75rem; margin: 0 0 0.5rem 0; font-weight: 600;">Your Code Is Ready!</h2>
+          <p style="color: #6b6460; font-size: 0.95rem; margin: 0;">Your 50% discount code has been generated. Copy it below or check your email.</p>
+        </div>
+
+        <!-- Discount Code Display -->
+        <div style="background: #f0e6d3; border: 2px dashed #c9a96e; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; text-align: center;">
+          <p style="color: #999; font-size: 0.75rem; text-transform: uppercase; margin: 0 0 0.75rem 0; letter-spacing: 1px;">Your Discount Code</p>
+          <p id="displayCode" style="font-family: 'Courier New', monospace; font-size: 1.75rem; font-weight: 600; color: #1a1412; word-break: break-all; margin: 0; padding: 0.75rem 0; letter-spacing: 2px;">SILVER50</p>
+          <button id="copyCodeButton" style="margin-top: 0.75rem; padding: 0.5rem 1rem; background: #c9a96e; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; width: 100%; max-width: 200px;">📋 Copy Code</button>
+        </div>
+
+        <!-- Pricing Info -->
+        <div style="background: rgba(201, 169, 110, 0.1); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; text-align: left;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.75rem;">
+            <span style="color: #6b6460;">Original Price:</span>
+            <span style="color: #1a1412; font-weight: 600; text-decoration: line-through;">₹5,850</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; color: #22c55e; font-weight: 600; margin-bottom: 0.75rem;">
+            <span>Your Price (50% OFF):</span>
+            <span id="displayPrice">₹2,925</span>
+          </div>
+          <div style="padding-top: 0.75rem; border-top: 1px solid #c9a96e; color: #6b6460; font-size: 0.85rem;">
+            You save: ₹2,925 (50%)
+          </div>
+        </div>
+
+        <!-- Expiry Notice -->
+        <div style="background: #fee2e2; border-left: 4px solid #ef4444; padding: 0.75rem; margin-bottom: 1.5rem; border-radius: 4px;">
+          <p style="color: #991b1b; font-size: 0.85rem; margin: 0;">⏰ Valid until <strong id="displayExpiry">2026-04-14</strong> (7 days)</p>
+        </div>
+
+        <!-- Check Email Message -->
+        <p style="color: #6b6460; font-size: 0.85rem; margin-bottom: 1.5rem; text-align: center;">📧 A confirmation email with your code has been sent. Check your inbox (and spam folder just in case).</p>
+
+        <!-- Share & Action Buttons -->
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <button id="whatsappShareButton" style="padding: 0.75rem 1.5rem; background: #25d366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; width: 100%;">💬 Share via WhatsApp</button>
+          <button id="proceedToCheckout" style="padding: 0.75rem 1.5rem; background: #1a1412; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; width: 100%;">Ready to Checkout? →</button>
+        </div>
+      </div>
+    </div>
+
     <script>
       // Pre-order modal functionality
       const preorderBtn = document.getElementById('preorderBtn');
@@ -2352,37 +2483,28 @@
 
       // Display success modal with discount code
       function showSuccessModal(result) {
-        const successHTML = `
-          <div id="successOverlay" class="preorder-modal active" style="z-index: 10001;">
-            <div class="preorder-modal-content" style="text-align: center; max-width: 420px;">
-              <button class="preorder-close" onclick="document.getElementById('successOverlay').remove(); document.body.style.overflow = 'auto';" aria-label="Close success modal">&times;</button>
-              <div style="margin: 2rem 0; font-size: 3rem;">🦋</div>
-              <h2 style="color: #1a1412; margin-bottom: 1rem;">Your Code is Ready!</h2>
-              <p style="color: #6b6460; margin-bottom: 1.5rem; line-height: 1.6;">
-                We've reserved your exclusive 50% launch offer. Your discount code is:
-              </p>
-              <div style="background: #f0e6d3; border: 2px solid #c9a96e; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
-                <div style="font-family: 'Courier New', monospace; font-size: 1.75rem; font-weight: 600; color: #1a1412; letter-spacing: 2px;">
-                  ${result.discountCode || 'SILVER50'}
-                </div>
-              </div>
-              <p style="color: #6b6460; margin-bottom: 2rem; font-size: 0.95rem;">
-                <strong>Valid until:</strong> ${result.validUntil || 'Launch day'}<br>
-                <strong>Save:</strong> ₹2,925 (50% off ₹5,850)
-              </p>
-              <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
-                <button onclick="navigator.clipboard.writeText('${result.discountCode || 'SILVER50'}'); alert('Code copied!'); document.getElementById('successOverlay').remove(); document.body.style.overflow = 'auto';" style="flex: 1; padding: 0.75rem; background: #1a1412; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                  Copy Code
-                </button>
-                <a href="https://wa.me/918282816919?text=I'd%20like%20to%20order%20the%20Butterfly%20Brooch%20with%20my%20code%20${result.discountCode || 'SILVER50'}" target="_blank" style="flex: 1; padding: 0.75rem; background: #25d366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center;">
-                  WhatsApp Order
-                </a>
-              </div>
-              <p style="color: #6b6460; font-size: 0.85rem;">We'll send confirmation details to your email shortly.</p>
-            </div>
-          </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', successHTML);
+        // Hide the preorder form modal
+        const preorderModal = document.getElementById('preorderModal');
+        if (preorderModal) {
+          preorderModal.classList.remove('active');
+          preorderModal.style.display = 'none';
+        }
+
+        // Populate modal with data from result
+        const displayCode = document.getElementById('displayCode');
+        const displayPrice = document.getElementById('displayPrice');
+        const displayExpiry = document.getElementById('displayExpiry');
+
+        if (displayCode) displayCode.textContent = result.discountCode || 'SILVER50';
+        if (displayPrice) displayPrice.textContent = '₹' + (result.discountedPrice || 2925).toLocaleString('en-IN');
+        if (displayExpiry) displayExpiry.textContent = result.validUntil || '2026-04-14';
+
+        // Show the success modal
+        const successModal = document.getElementById('successModal');
+        if (successModal) {
+          successModal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+        }
       }
 
       // Handle form submission - Calling generate-discount Edge Function
@@ -2486,6 +2608,92 @@
           // Re-enable submit button
           submitBtn.disabled = false;
           submitBtn.textContent = 'Reserve My Spot Now';
+        }
+      });
+
+      // SUCCESS MODAL EVENT LISTENERS
+
+      // Close success modal button
+      const closeSuccessModalBtn = document.getElementById('closeSuccessModal');
+      if (closeSuccessModalBtn) {
+        closeSuccessModalBtn.addEventListener('click', function() {
+          const successModal = document.getElementById('successModal');
+          if (successModal) {
+            successModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }
+        });
+      }
+
+      // Copy code to clipboard
+      const copyCodeButton = document.getElementById('copyCodeButton');
+      if (copyCodeButton) {
+        copyCodeButton.addEventListener('click', function() {
+          const displayCode = document.getElementById('displayCode');
+          const code = displayCode.textContent.trim();
+
+          navigator.clipboard.writeText(code).then(function() {
+            const originalText = copyCodeButton.textContent;
+            copyCodeButton.textContent = '✓ Copied!';
+            copyCodeButton.style.background = '#22c55e';
+
+            setTimeout(function() {
+              copyCodeButton.textContent = originalText;
+              copyCodeButton.style.background = '#c9a96e';
+            }, 2000);
+          }).catch(function(err) {
+            console.error('Failed to copy: ', err);
+          });
+        });
+      }
+
+      // WhatsApp share button
+      const whatsappShareButton = document.getElementById('whatsappShareButton');
+      if (whatsappShareButton) {
+        whatsappShareButton.addEventListener('click', function() {
+          const displayCode = document.getElementById('displayCode');
+          const displayPrice = document.getElementById('displayPrice');
+          const displayExpiry = document.getElementById('displayExpiry');
+
+          const code = displayCode.textContent.trim();
+          const price = displayPrice.textContent.trim();
+          const expiry = displayExpiry.textContent.trim();
+
+          const message = `🦋 I just got a 50% discount on the Butterfly Brooch!\n\nDiscount Code: ${code}\nPrice: ${price}\nValid until: ${expiry}\n\nCheck it out: https://expostores.com/butterfly-brooch`;
+          const encodedMessage = encodeURIComponent(message);
+
+          const whatsappUrl = `https://wa.me/?text=${encodedMessage}`;
+          window.open(whatsappUrl, '_blank');
+        });
+      }
+
+      // Proceed to checkout button
+      const proceedToCheckoutBtn = document.getElementById('proceedToCheckout');
+      if (proceedToCheckoutBtn) {
+        proceedToCheckoutBtn.addEventListener('click', function() {
+          window.location.href = 'https://expostores.com/products/butterfly-brooch';
+        });
+      }
+
+      // Close modal on backdrop click
+      const successModal = document.getElementById('successModal');
+      if (successModal) {
+        successModal.addEventListener('click', function(e) {
+          if (e.target === successModal) {
+            successModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }
+        });
+      }
+
+      // Close modal on Escape key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          const successModal = document.getElementById('successModal');
+          if (successModal && successModal.style.display === 'flex') {
+            successModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+          }
         }
       });
 
