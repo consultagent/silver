@@ -2350,7 +2350,42 @@
         return '+' + cleaned;
       }
 
-      // Handle form submission - Using Secure Backend Proxy
+      // Display success modal with discount code
+      function showSuccessModal(result) {
+        const successHTML = `
+          <div id="successOverlay" class="preorder-modal active" style="z-index: 10001;">
+            <div class="preorder-modal-content" style="text-align: center; max-width: 420px;">
+              <button class="preorder-close" onclick="document.getElementById('successOverlay').remove(); document.body.style.overflow = 'auto';" aria-label="Close success modal">&times;</button>
+              <div style="margin: 2rem 0; font-size: 3rem;">🦋</div>
+              <h2 style="color: #1a1412; margin-bottom: 1rem;">Your Code is Ready!</h2>
+              <p style="color: #6b6460; margin-bottom: 1.5rem; line-height: 1.6;">
+                We've reserved your exclusive 50% launch offer. Your discount code is:
+              </p>
+              <div style="background: #f0e6d3; border: 2px solid #c9a96e; border-radius: 8px; padding: 1.25rem; margin-bottom: 1.5rem;">
+                <div style="font-family: 'Courier New', monospace; font-size: 1.75rem; font-weight: 600; color: #1a1412; letter-spacing: 2px;">
+                  ${result.discountCode || 'SILVER50'}
+                </div>
+              </div>
+              <p style="color: #6b6460; margin-bottom: 2rem; font-size: 0.95rem;">
+                <strong>Valid until:</strong> ${result.validUntil || 'Launch day'}<br>
+                <strong>Save:</strong> ₹2,925 (50% off ₹5,850)
+              </p>
+              <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                <button onclick="navigator.clipboard.writeText('${result.discountCode || 'SILVER50'}'); alert('Code copied!'); document.getElementById('successOverlay').remove(); document.body.style.overflow = 'auto';" style="flex: 1; padding: 0.75rem; background: #1a1412; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                  Copy Code
+                </button>
+                <a href="https://wa.me/918282816919?text=I'd%20like%20to%20order%20the%20Butterfly%20Brooch%20with%20my%20code%20${result.discountCode || 'SILVER50'}" target="_blank" style="flex: 1; padding: 0.75rem; background: #25d366; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                  WhatsApp Order
+                </a>
+              </div>
+              <p style="color: #6b6460; font-size: 0.85rem;">We'll send confirmation details to your email shortly.</p>
+            </div>
+          </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', successHTML);
+      }
+
+      // Handle form submission - Calling generate-discount Edge Function
       preorderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -2358,32 +2393,54 @@
         const formMessage = document.getElementById('formMessage');
         const form = e.target;
 
+        // Disable submit button
         submitBtn.disabled = true;
-        submitBtn.textContent = "Reserving...";
+        submitBtn.textContent = "Generating your code...";
+
+        // Hide previous messages
         formMessage.style.display = 'none';
         formMessage.className = 'form-message';
 
+        // Get form data
         const formData = {
           fullName: document.getElementById('fullName').value.trim(),
           email: document.getElementById('email').value.trim(),
           phone: document.getElementById('phone').value.trim(),
           city: document.getElementById('city').value.trim() || "Not provided",
-          heardFrom: document.getElementById('heardFrom').value || "Not specified",
+          heardFrom: document.getElementById('heardFrom').value,
         };
 
         try {
-          const response = await fetch('/api/preorder', {
+          // Track form submission event in Brevo
+          if (window.sendinblue && window.sendinblue.track) {
+            window.sendinblue.track('preorder_form_submitted', {
+              product: 'Butterfly Brooch AM001',
+              source: formData.heardFrom,
+            });
+          }
+
+          // Call Vercel Edge Function to generate discount code
+          const response = await fetch('/api/generate-discount', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify(formData),
           });
 
-          const data = await response.json();
+          const result = await response.json();
 
-          if (response.ok) {
-            formMessage.textContent = data.message || '🦋 Reservation Confirmed!';
-            formMessage.className = 'form-message success';
-            formMessage.style.display = 'block';
+          if (result.success) {
+            // Success - show success modal
+            showSuccessModal(result);
+
+            // Track conversion with Brevo
+            if (window.sendinblue && window.sendinblue.track) {
+              window.sendinblue.track('waitlist_joined', {
+                email: formData.email,
+                value: 6425,
+              });
+            }
 
             // Track with GTM/Meta if available
             if (typeof gtag !== 'undefined') {
@@ -2400,30 +2457,33 @@
               });
             }
 
-            setTimeout(() => {
-              form.reset();
-              formMessage.style.display = 'none';
-              submitBtn.disabled = false;
-              submitBtn.textContent = 'Reserve My Spot Now';
-            }, 3000);
+            // Hide preorder modal
+            preorderModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
 
-            setTimeout(() => {
-              preorderModal.classList.remove('active');
-              document.body.style.overflow = 'auto';
-            }, 1500);
-          } else {
-            const errorMsg = data.errors?.join(', ') || data.message || 'Something went wrong.';
-            formMessage.textContent = `❌ ${errorMsg}`;
-            formMessage.className = 'form-message error';
-            formMessage.style.display = 'block';
+            // Clear form
+            form.reset();
             submitBtn.disabled = false;
             submitBtn.textContent = 'Reserve My Spot Now';
+          } else {
+            throw new Error(result.error || 'Unknown error');
           }
         } catch (error) {
-          console.error('Form error:', error);
-          formMessage.textContent = '❌ Network error. Try again or WhatsApp: +91 82828 16919';
+          console.error('Form submission error:', error);
+
+          // Show error message
+          let errorMsg = '❌ Something went wrong. Please try again.';
+          if (error.message.includes('already has')) {
+            errorMsg = '❌ This email already has a discount code.';
+          } else if (error.message.includes('Missing')) {
+            errorMsg = '❌ Please fill in all required fields.';
+          }
+
+          formMessage.textContent = errorMsg;
           formMessage.className = 'form-message error';
           formMessage.style.display = 'block';
+
+          // Re-enable submit button
           submitBtn.disabled = false;
           submitBtn.textContent = 'Reserve My Spot Now';
         }
