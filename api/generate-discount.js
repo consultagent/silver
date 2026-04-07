@@ -4,7 +4,24 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const brevoApiKey = process.env.BREVO_API_KEY;
 
+// Validate required environment variables at startup
+if (!supabaseUrl || !supabaseKey || !brevoApiKey) {
+  throw new Error('Missing required environment variables: SUPABASE_URL, SUPABASE_ANON_KEY, BREVO_API_KEY');
+}
+
 const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Utility function to escape HTML and prevent XSS vulnerabilities
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
 
 export default async function handler(req, res) {
   // Only allow POST
@@ -77,7 +94,7 @@ export default async function handler(req, res) {
       .single();
 
     if (dbError) {
-      console.error('Supabase insert error:', dbError);
+      console.error(`[${req.headers['x-request-id'] || 'unknown'}] Supabase insert failed:`, dbError.code);
       throw dbError;
     }
 
@@ -97,7 +114,7 @@ export default async function handler(req, res) {
         to: [
           {
             email: email,
-            name: fullName
+            name: escapeHtml(fullName)
           }
         ],
         subject: '🦋 Your Butterfly Brooch Discount Code - 50% OFF',
@@ -105,7 +122,7 @@ export default async function handler(req, res) {
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #1a1412;">Reservation Confirmed! 🦋</h2>
 
-            <p>Dear ${fullName},</p>
+            <p>Dear ${escapeHtml(fullName)},</p>
 
             <p>Thank you for reserving the Butterfly Brooch! Your exclusive 50% discount code is ready:</p>
 
@@ -136,7 +153,7 @@ export default async function handler(req, res) {
 
     if (!brevoResponse.ok) {
       const brevoError = await brevoResponse.json();
-      console.error('Brevo API error:', brevoError);
+      console.error(`[${req.headers['x-request-id'] || 'unknown'}] Brevo API error:`, brevoError.code);
       console.warn('Email send failed but code was created');
     }
 
@@ -157,7 +174,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('generate-discount error:', error);
+    console.error(`[${req.headers['x-request-id'] || 'unknown'}] generate-discount error:`, error.message);
     return res.status(500).json({
       success: false,
       error: 'Server error. Please try again later.'
