@@ -8,12 +8,17 @@
     "dev": "vercel dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["silver", "brooch", "ecommerce"],
+  "keywords": [
+    "silver",
+    "brooch",
+    "ecommerce"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2",
+    "@supabase/supabase-js": "^2.102.1",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
     "express-rate-limit": "^7.1.5"
   }
 }
