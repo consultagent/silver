@@ -6,6 +6,11 @@ const brevoApiKey = process.env.BREVO_API_KEY;
 
 // Validate required environment variables at startup
 if (!supabaseUrl || !supabaseKey || !brevoApiKey) {
+  console.error('[STARTUP] Missing environment variables:', {
+    SUPABASE_URL: !!supabaseUrl,
+    SUPABASE_ANON_KEY: !!supabaseKey,
+    BREVO_API_KEY: !!brevoApiKey
+  });
   throw new Error('Missing required environment variables: SUPABASE_URL, SUPABASE_ANON_KEY, BREVO_API_KEY');
 }
 
@@ -184,15 +189,19 @@ export default async function handler(req, res) {
     return res.status(200).json({
       success: true,
       discountCode: discountCode,
-      discountedPrice: 2925,
+      discountedPrice: 6425,
       expiryDate: expiryDateString
     });
 
   } catch (error) {
-    console.error(`[${req.headers['x-request-id'] || 'unknown'}] generate-discount error:`, error.message);
+    console.error(`[${req.headers['x-request-id'] || 'unknown'}] generate-discount error:`, {
+      message: error.message,
+      code: error.code,
+      details: error.details
+    });
     return res.status(500).json({
       success: false,
-      error: 'Server error. Please try again later.'
+      error: error.message || 'Server error. Please try again later.'
     });
   }
 }
