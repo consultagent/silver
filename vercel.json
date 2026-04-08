@@ -1,12 +1,11 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" }
-  ],
+  "buildCommand": "echo 'Static site - no build needed'",
+  "public": true,
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" }
-  ],
-  "env": {
-    "BREVO_API_KEY": "@brevo_api_key"
-  }
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
