@@ -67,7 +67,7 @@ async function sendWelcomeEmail(contactData) {
 
 module.exports = preorderLimiter(async (req, res) => {
   const origin = req.headers.origin;
-  const allowedOrigins = ['https://silver.expostores.com', 'http://localhost:3000', 'http://localhost:4321', 'http://localhost:5173'];
+  const allowedOrigins = ['https://silver.expostores.com', 'http://localhost:3000', 'http://localhost:4321', 'http://localhost:5173', 'http://localhost:5432'];
   
   if (allowedOrigins.includes(origin)) res.setHeader('Access-Control-Allow-Origin', origin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
