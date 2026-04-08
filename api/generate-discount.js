@@ -129,7 +129,7 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         sender: {
           name: 'Silver By Expostores',
-          email: 'orders@silverbyexpostores.com'
+          email: 'sales@expostores.com'
         },
         to: [
           {
