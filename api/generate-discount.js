@@ -154,8 +154,8 @@ export default async function handler(req, res) {
             </div>
 
             <div style="background: #f9f9f9; padding: 1.5rem; border-radius: 4px; margin: 1.5rem 0;">
-              <p><strong>Original Price:</strong> ₹5,850</p>
-              <p><strong>Your Price:</strong> <span style="color: #2d7a4f; font-weight: bold;">₹2,925 (50% off)</span></p>
+              <p><strong>Original Price:</strong> ₹12,850</p>
+              <p><strong>Your Price:</strong> <span style="color: #2d7a4f; font-weight: bold;">₹6,425 (50% off)</span></p>
               <p><strong>Valid Until:</strong> ${expiryDate.toDateString()}</p>
             </div>
 
