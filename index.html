@@ -50,13 +50,15 @@
     </title>
 
     <!-- Google Adwords Conversion Tracking — replace AW-XXXXXXXXX/YYYYYYY with your tag -->
-    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-XXXXXXXXX');
-  </script> -->
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D241BR034Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D241BR034Y');
+</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -954,6 +956,216 @@
         padding: 80px 24px;
       }
 
+      /* ── Cookie Banner ── */
+      .cookie-banner {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #1a1412 0%, #2d2420 100%);
+        color: white;
+        padding: 1.5rem;
+        z-index: 997;
+        display: none;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+        font-family: var(--font-body);
+      }
+
+      .cookie-banner.active {
+        display: block;
+        animation: slideUp 0.3s ease-out;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .cookie-banner-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .cookie-banner-text {
+        flex: 1;
+      }
+
+      .cookie-banner-text h3 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .cookie-banner-text p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: #e0d5c7;
+      }
+
+      .cookie-banner-actions {
+        display: flex;
+        gap: 0.75rem;
+        white-space: nowrap;
+      }
+
+      .cookie-btn {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: all 0.2s ease;
+        font-family: var(--font-body);
+      }
+
+      .cookie-btn-primary {
+        background: #c9a96e;
+        color: white;
+      }
+
+      .cookie-btn-primary:hover {
+        background: #b89d5c;
+        transform: translateY(-2px);
+      }
+
+      .cookie-btn-secondary {
+        background: transparent;
+        color: white;
+        border: 1px solid #c9a96e;
+      }
+
+      .cookie-btn-secondary:hover {
+        background: rgba(201, 169, 110, 0.1);
+        transform: translateY(-2px);
+      }
+
+      /* Cookie Modal */
+      .cookie-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 998;
+        padding: 1rem;
+      }
+
+      .cookie-modal.active {
+        display: flex;
+      }
+
+      .cookie-modal-content {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      .cookie-modal-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: #999;
+      }
+
+      .cookie-modal-close:hover {
+        color: #333;
+      }
+
+      .cookie-settings-group {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .cookie-settings-group:last-child {
+        border-bottom: none;
+        margin-bottom: 1rem;
+        padding-bottom: 0;
+      }
+
+      .cookie-settings-group h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        color: #1a1412;
+      }
+
+      .cookie-settings-group p {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 1rem;
+      }
+
+      .cookie-checkbox {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        margin-bottom: 0.75rem;
+      }
+
+      .cookie-checkbox input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        margin-right: 0.75rem;
+        accent-color: #c9a96e;
+      }
+
+      .cookie-checkbox span {
+        font-size: 0.95rem;
+        color: #1a1412;
+      }
+
+      .cookie-checkbox input:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        .cookie-banner-content {
+          flex-direction: column;
+          gap: 1rem;
+          align-items: stretch;
+        }
+
+        .cookie-banner-actions {
+          flex-direction: column;
+          width: 100%;
+        }
+
+        .cookie-btn {
+          width: 100%;
+        }
+
+        .cookie-banner {
+          padding: 1rem;
+        }
+
+        .cookie-banner-text p {
+          font-size: 0.85rem;
+        }
+      }
+
       /* ── Lightbox ── */
       .lightbox {
         display: none;
@@ -1077,6 +1289,75 @@
 
 </head>
   <body>
+    <!-- ── Cookie Consent Banner ── -->
+    <div id="cookieConsent" class="cookie-banner" role="dialog" aria-label="Cookie consent">
+      <div class="cookie-banner-content">
+        <div class="cookie-banner-text">
+          <h3 style="margin: 0 0 0.5rem 0; font-size: 1rem;">🍪 We Use Cookies</h3>
+          <p style="margin: 0; font-size: 0.9rem; line-height: 1.5;">
+            We use cookies to enhance your experience, analyze site performance, and deliver personalized content.
+            By using our site, you consent to our use of cookies.
+            <a href="/privacy-policy" target="_blank" style="color: #c9a96e; text-decoration: none; font-weight: 500;">
+              Learn more →
+            </a>
+          </p>
+        </div>
+        <div class="cookie-banner-actions">
+          <button id="cookieAccept" class="cookie-btn cookie-btn-primary">
+            Accept All
+          </button>
+          <button id="cookieReject" class="cookie-btn cookie-btn-secondary">
+            Reject Non-Essential
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookieSettingsModal" class="cookie-modal" role="dialog" aria-label="Cookie settings">
+      <div class="cookie-modal-content">
+        <button class="cookie-modal-close" id="cookieSettingsClose">&times;</button>
+
+        <h2 style="margin-top: 0;">Cookie Settings</h2>
+
+        <div class="cookie-settings-group">
+          <h3>Essential Cookies</h3>
+          <p style="color: #666; font-size: 0.9rem;">Required for site functionality and security.</p>
+          <label class="cookie-checkbox">
+            <input type="checkbox" checked disabled />
+            <span>Essential Cookies</span>
+          </label>
+        </div>
+
+        <div class="cookie-settings-group">
+          <h3>Analytics Cookies</h3>
+          <p style="color: #666; font-size: 0.9rem;">Help us understand how visitors use our site.</p>
+          <label class="cookie-checkbox">
+            <input type="checkbox" id="analyticsCookie" checked />
+            <span>Google Analytics (GA4)</span>
+          </label>
+        </div>
+
+        <div class="cookie-settings-group">
+          <h3>Marketing Cookies</h3>
+          <p style="color: #666; font-size: 0.9rem;">Used for retargeting and personalized ads.</p>
+          <label class="cookie-checkbox">
+            <input type="checkbox" id="marketingCookie" checked />
+            <span>Meta Pixel (Facebook)</span>
+          </label>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button id="cookieSettingsSave" class="cookie-btn cookie-btn-primary" style="flex: 1;">
+            Save Preferences
+          </button>
+          <button id="cookieSettingsRejectAll" class="cookie-btn cookie-btn-secondary" style="flex: 1;">
+            Reject All
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── Navigation ── -->
     <nav class="nav" role="navigation" aria-label="Site navigation">
       <a href="#" class="nav-brand" aria-label="EBPS Silver Jewellery home"
@@ -2696,6 +2977,201 @@
           }
         }
       });
+
+      // ════════════════════════════════════════════════════════════════════
+      // COOKIE CONSENT BANNER IMPLEMENTATION
+      // ════════════════════════════════════════════════════════════════════
+
+      const cookieBanner = document.getElementById('cookieConsent');
+      const acceptBtn = document.getElementById('cookieAccept');
+      const rejectBtn = document.getElementById('cookieReject');
+      const cookieSettingsModal = document.getElementById('cookieSettingsModal');
+      const cookieSettingsClose = document.getElementById('cookieSettingsClose');
+      const cookieSettingsSave = document.getElementById('cookieSettingsSave');
+      const cookieSettingsRejectAll = document.getElementById('cookieSettingsRejectAll');
+
+      const COOKIE_CONSENT_KEY = 'silverExpostores_cookieConsent';
+
+      // Initialize cookie banner on page load
+      function initCookieBanner() {
+        const consent = getCookieConsent();
+
+        if (!consent) {
+          showCookieBanner();
+        } else {
+          applyConsentPreferences(consent);
+        }
+      }
+
+      // Get stored consent from localStorage
+      function getCookieConsent() {
+        const stored = localStorage.getItem(COOKIE_CONSENT_KEY);
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {
+            return null;
+          }
+        }
+        return null;
+      }
+
+      // Show cookie banner
+      function showCookieBanner() {
+        if (cookieBanner) {
+          cookieBanner.classList.add('active');
+        }
+      }
+
+      // Hide cookie banner
+      function hideCookieBanner() {
+        if (cookieBanner) {
+          cookieBanner.classList.remove('active');
+        }
+      }
+
+      // Accept all cookies
+      function acceptAllCookies() {
+        const consent = {
+          accepted: true,
+          analytics: true,
+          marketing: true,
+          date: new Date().toISOString(),
+          version: 1
+        };
+
+        saveCookieConsent(consent);
+        applyConsentPreferences(consent);
+        hideCookieBanner();
+
+        console.log('✅ All cookies accepted');
+      }
+
+      // Reject non-essential cookies
+      function rejectNonEssentialCookies() {
+        const consent = {
+          accepted: true,
+          analytics: false,
+          marketing: false,
+          date: new Date().toISOString(),
+          version: 1
+        };
+
+        saveCookieConsent(consent);
+        applyConsentPreferences(consent);
+        hideCookieBanner();
+
+        console.log('❌ Non-essential cookies rejected');
+      }
+
+      // Open cookie settings modal
+      function openCookieSettings() {
+        const consent = getCookieConsent() || {
+          analytics: true,
+          marketing: true
+        };
+
+        document.getElementById('analyticsCookie').checked = consent.analytics !== false;
+        document.getElementById('marketingCookie').checked = consent.marketing !== false;
+
+        if (cookieSettingsModal) {
+          cookieSettingsModal.classList.add('active');
+        }
+      }
+
+      // Close cookie settings modal
+      function closeCookieSettings() {
+        if (cookieSettingsModal) {
+          cookieSettingsModal.classList.remove('active');
+        }
+      }
+
+      // Save custom cookie preferences
+      function saveCookieSettings() {
+        const consent = {
+          accepted: true,
+          analytics: document.getElementById('analyticsCookie').checked,
+          marketing: document.getElementById('marketingCookie').checked,
+          date: new Date().toISOString(),
+          version: 1
+        };
+
+        saveCookieConsent(consent);
+        applyConsentPreferences(consent);
+        closeCookieSettings();
+
+        console.log('✅ Cookie preferences saved', consent);
+      }
+
+      // Reject all cookies (settings modal)
+      function rejectAllCookies() {
+        const consent = {
+          accepted: true,
+          analytics: false,
+          marketing: false,
+          date: new Date().toISOString(),
+          version: 1
+        };
+
+        saveCookieConsent(consent);
+        applyConsentPreferences(consent);
+        closeCookieSettings();
+
+        console.log('❌ All non-essential cookies rejected');
+      }
+
+      // Save consent to localStorage
+      function saveCookieConsent(consent) {
+        localStorage.setItem(COOKIE_CONSENT_KEY, JSON.stringify(consent));
+      }
+
+      // Apply consent preferences (enable/disable tracking)
+      function applyConsentPreferences(consent) {
+        if (consent.analytics === false) {
+          gtag('consent', 'update', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied'
+          });
+          console.log('🚫 Analytics disabled by user');
+        } else {
+          gtag('consent', 'update', {
+            'analytics_storage': 'granted',
+            'ad_storage': 'granted'
+          });
+          console.log('✅ Analytics enabled');
+        }
+
+        if (consent.marketing === false) {
+          window.fbq && fbq('consent', 'revoke');
+          console.log('🚫 Marketing disabled by user');
+        } else {
+          window.fbq && fbq('consent', 'grant');
+          console.log('✅ Marketing enabled');
+        }
+      }
+
+      // Event listeners
+      if (acceptBtn) acceptBtn.addEventListener('click', acceptAllCookies);
+      if (rejectBtn) rejectBtn.addEventListener('click', rejectNonEssentialCookies);
+      if (cookieSettingsClose) cookieSettingsClose.addEventListener('click', closeCookieSettings);
+      if (cookieSettingsSave) cookieSettingsSave.addEventListener('click', saveCookieSettings);
+      if (cookieSettingsRejectAll) cookieSettingsRejectAll.addEventListener('click', rejectAllCookies);
+
+      // Close modal when clicking outside
+      if (cookieSettingsModal) {
+        cookieSettingsModal.addEventListener('click', function(e) {
+          if (e.target === cookieSettingsModal) {
+            closeCookieSettings();
+          }
+        });
+      }
+
+      // Initialize on page load
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initCookieBanner);
+      } else {
+        initCookieBanner();
+      }
 
     </script>
   </body>
