@@ -2,7 +2,6 @@
   "version": 2,
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": ".",
-  "public": true,
   "routes": [
     {
       "src": "/(.*)",
