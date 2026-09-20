@@ -67,7 +67,8 @@ module.exports = catalogueLimiter(async (req, res) => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'Silver By Expostores <sales@expostores.com>',
+        from: 'Silver By Expostores <catalogue@mail.expostores.com>',
+        reply_to: 'sales@expostores.com',
         to: [cleanEmail],
         subject: 'Your Silver Filigree Catalogues',
         html: `
